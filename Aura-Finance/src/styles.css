@@ -1,29 +1,4 @@
 @import "tailwindcss";
-@import "@angular/material" as mat;
-
-:root {
-  --mat-sys-primary: #6750A4;
-  --mat-sys-on-primary: #FFFFFF;
-  --mat-sys-surface: #FFFBFE;
-  --mat-sys-background: #FFFBFE;
-}
-
-@include mat.core();
-
-$theme: mat.define-theme((
-  color: (
-    theme-type: light,
-    primary: mat.$violet-palette,
-  ),
-  typography: (
-    brand-family: 'Inter, sans-serif',
-    plain-family: 'Inter, sans-serif',
-  ),
-));
-
-html {
-  @include mat.all-component-themes($theme);
-}
 
 * {
   box-sizing: border-box;
@@ -32,4 +7,6 @@ html {
 body {
   margin: 0;
   font-family: 'Inter', sans-serif;
+  background-color: #0a0a0f;
+  color: white;
 }

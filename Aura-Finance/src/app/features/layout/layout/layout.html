@@ -1,0 +1,43 @@
+<div class="flex h-screen bg-[#0a0a0f] text-white overflow-hidden">
+
+  <aside class="flex flex-col w-64 border-r border-white/5 shrink-0">
+
+    <div class="flex items-center gap-3 px-6 py-6 border-b border-white/5">
+      <div class="w-8 h-8 rounded-lg bg-violet-500 flex items-center justify-center">
+        <mat-icon class="text-white !text-base">bolt</mat-icon>
+      </div>
+      <span class="font-semibold text-sm tracking-wide">Aura Finance</span>
+    </div>
+
+    <nav class="flex-1 px-3 py-4 flex flex-col gap-1">
+      @for (item of navItems; track item.route) {
+        <a
+          [routerLink]="item.route"
+          routerLinkActive="bg-white/8 text-white"
+          class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-white/50 hover:text-white hover:bg-white/5 transition-all duration-200 text-sm font-medium"
+          matRipple
+        >
+          <mat-icon class="!text-xl shrink-0">{{ item.icon }}</mat-icon>
+          {{ item.label }}
+        </a>
+      }
+    </nav>
+
+    <div class="px-3 py-4 border-t border-white/5">
+      <a
+        routerLink="/login"
+        class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-white/50 hover:text-white hover:bg-white/5 transition-all duration-200 text-sm font-medium"
+        matRipple
+      >
+        <mat-icon class="!text-xl shrink-0">login</mat-icon>
+        Sign in
+      </a>
+    </div>
+
+  </aside>
+
+  <main class="flex-1 overflow-y-auto">
+    <router-outlet />
+  </main>
+
+</div>

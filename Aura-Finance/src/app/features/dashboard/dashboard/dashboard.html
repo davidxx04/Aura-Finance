@@ -1,0 +1,59 @@
+<div class="p-8 max-w-6xl mx-auto">
+
+  <!-- Header -->
+  <div class="mb-8">
+    <p class="text-white/40 text-sm mb-1">{{ today | date:'EEEE, MMMM d' }}</p>
+    <h1 class="text-3xl font-semibold text-white">Dashboard</h1>
+  </div>
+
+  <!-- Balance principal -->
+  <div class="rounded-2xl border border-white/5 bg-white/3 p-6 mb-6">
+    <p class="text-white/40 text-sm mb-2">Current balance</p>
+    <p class="text-5xl font-semibold tracking-tight"
+       [class]="balance() >= 0 ? 'text-emerald-400' : 'text-red-400'">
+      {{ balance() | currency:'EUR':'symbol':'1.2-2' }}
+    </p>
+    <p class="text-white/30 text-sm mt-2">
+      {{ today | date:'MMMM yyyy' }}
+    </p>
+  </div>
+
+  <!-- Tarjetas de resumen -->
+  <div class="grid grid-cols-2 gap-4 mb-6 lg:grid-cols-4">
+    @for (card of cards; track card.label) {
+      <div class="rounded-2xl border border-white/5 bg-white/3 p-5">
+        <div class="flex items-center justify-between mb-4">
+          <span class="text-white/40 text-xs font-medium uppercase tracking-wider">
+            {{ card.label }}
+          </span>
+          <div class="w-8 h-8 rounded-lg flex items-center justify-center" [class]="card.bg">
+            <mat-icon class="!text-base" [class]="card.iconColor">{{ card.icon }}</mat-icon>
+          </div>
+        </div>
+        <p class="text-2xl font-semibold" [class]="card.valueColor">
+          {{ card.value() | currency:'EUR':'symbol':'1.2-2' }}
+        </p>
+      </div>
+    }
+  </div>
+
+  <!-- Quick actions -->
+  <div class="flex gap-3">
+    <a
+      routerLink="/app/budget"
+      class="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-violet-500 hover:bg-violet-400 transition-colors text-sm font-medium text-white"
+    >
+      <mat-icon class="!text-base">add</mat-icon>
+      Add budget
+    </a>
+    
+    <a
+      routerLink="/app/history"
+      class="flex items-center gap-2 px-4 py-2.5 rounded-xl border border-white/10 hover:bg-white/5 transition-colors text-sm font-medium text-white/70"
+    >
+      <mat-icon class="!text-base">history</mat-icon>
+      View history
+    </a>
+  </div>
+
+</div>
