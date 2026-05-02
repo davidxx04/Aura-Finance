@@ -1,0 +1,111 @@
+<div style="background:#0f0f1a; color:white; min-width:560px; max-width:700px; border-radius:16px; overflow:hidden;">
+
+  <!-- Header -->
+  <div style="display:flex; align-items:center; justify-content:space-between; padding:24px 24px 16px; border-bottom:1px solid rgba(255,255,255,0.05);">
+    <div>
+      <p style="color:rgba(255,255,255,0.4); font-size:12px; margin:0 0 4px; text-transform:uppercase; letter-spacing:0.08em;">{{ data.month }}</p>
+      <h2 style="margin:0; font-size:20px; font-weight:600;">{{ sectionLabel() }}</h2>
+    </div>
+    <div style="display:flex; align-items:center; gap:16px;">
+      <span style="font-size:24px; font-weight:600; color:#a78bfa;">{{ sectionTotal() | currency:'EUR':'symbol':'1.2-2' }}</span>
+      <button (click)="close()" style="background:rgba(255,255,255,0.05); border:none; border-radius:8px; width:32px; height:32px; display:flex; align-items:center; justify-content:center; cursor:pointer; color:rgba(255,255,255,0.5);">
+        <mat-icon style="font-size:18px; width:18px; height:18px;">close</mat-icon>
+      </button>
+    </div>
+  </div>
+
+  <!-- Tablas -->
+  <div style="padding:16px 24px; max-height:480px; overflow-y:auto; display:flex; flex-direction:column; gap:16px;">
+
+    @if (section()?.tables?.length === 0) {
+      <div style="text-align:center; padding:40px 0; color:rgba(255,255,255,0.2);">
+        <mat-icon style="font-size:40px; width:40px; height:40px; margin-bottom:8px; display:block;">table_chart</mat-icon>
+        <p style="margin:0; font-size:14px;">No tables yet. Add one below.</p>
+      </div>
+    }
+
+    @for (table of section()?.tables ?? []; track table.id) {
+      <div style="border:1px solid rgba(255,255,255,0.06); border-radius:12px; overflow:hidden;">
+
+        <!-- Table header -->
+        <div style="display:flex; align-items:center; justify-content:space-between; padding:12px 16px; background:rgba(255,255,255,0.03);">
+          <span style="font-size:13px; font-weight:600; text-transform:uppercase; letter-spacing:0.06em; color:rgba(255,255,255,0.7);">{{ table.name }}</span>
+          <div style="display:flex; align-items:center; gap:12px;">
+            <span style="font-size:14px; font-weight:500; color:#a78bfa;">{{ tableTotal(table) | currency:'EUR':'symbol':'1.2-2' }}</span>
+            <button (click)="deleteTable(table.id)" style="background:none; border:none; cursor:pointer; color:rgba(255,255,255,0.2); padding:0; display:flex; align-items:center;">
+              <mat-icon style="font-size:16px; width:16px; height:16px;">delete</mat-icon>
+            </button>
+          </div>
+        </div>
+
+        <!-- Rows -->
+        <div style="padding:8px 0;">
+
+          @if (table.rows.length === 0) {
+            <p style="text-align:center; color:rgba(255,255,255,0.2); font-size:13px; padding:12px 0; margin:0;">No rows yet</p>
+          }
+
+          @for (row of table.rows; track row.id) {
+            <div style="display:grid; grid-template-columns:1fr 140px 32px; gap:8px; padding:6px 16px; align-items:center;">
+              <input
+                [value]="row.label"
+                (blur)="updateRow(table.id, row.id, 'label', $event.target.value)"
+                placeholder="Description"
+                style="background:rgba(255,255,255,0.04); border:1px solid rgba(255,255,255,0.06); border-radius:8px; padding:7px 12px; color:white; font-size:13px; outline:none; width:100%;"
+              />
+              <input
+                [value]="row.amount"
+                (blur)="updateRow(table.id, row.id, 'amount', $event.target.value)"
+                type="number"
+                placeholder="0.00"
+                style="background:rgba(255,255,255,0.04); border:1px solid rgba(255,255,255,0.06); border-radius:8px; padding:7px 12px; color:white; font-size:13px; outline:none; width:100%; text-align:right;"
+              />
+              <button (click)="deleteRow(table.id, row.id)" style="background:none; border:none; cursor:pointer; color:rgba(255,255,255,0.2); padding:0; display:flex; align-items:center; justify-content:center;">
+                <mat-icon style="font-size:16px; width:16px; height:16px;">remove_circle_outline</mat-icon>
+              </button>
+            </div>
+          }
+
+          <!-- Add row -->
+          <button
+            (click)="addRow(table.id)"
+            style="display:flex; align-items:center; gap:6px; margin:6px 16px 4px; background:none; border:none; cursor:pointer; color:rgba(255,255,255,0.3); font-size:12px; padding:0;"
+          >
+            <mat-icon style="font-size:14px; width:14px; height:14px;">add</mat-icon>
+            Add row
+          </button>
+
+        </div>
+      </div>
+    }
+
+    <!-- Nueva tabla -->
+    @if (showNewTableInput()) {
+      <div style="display:flex; gap:8px; align-items:center;">
+        <input
+          [value]="newTableName()"
+          (input)="newTableName.set($event.target.value)"
+          (keyup.enter)="addTable()"
+          placeholder="Table name (e.g. Food, Debts...)"
+          autofocus
+          style="flex:1; background:rgba(255,255,255,0.04); border:1px solid rgba(255,255,255,0.15); border-radius:10px; padding:10px 14px; color:white; font-size:14px; outline:none;"
+        />
+        <button (click)="addTable()" style="padding:10px 16px; background:#7c3aed; border:none; border-radius:10px; color:white; font-size:14px; cursor:pointer; font-weight:500;">
+          Add
+        </button>
+        <button (click)="showNewTableInput.set(false)" style="padding:10px 12px; background:rgba(255,255,255,0.05); border:none; border-radius:10px; color:rgba(255,255,255,0.5); font-size:14px; cursor:pointer;">
+          Cancel
+        </button>
+      </div>
+    }
+
+    <button
+      (click)="showNewTableInput.set(true)"
+      style="display:flex; align-items:center; justify-content:center; gap:8px; padding:12px; border:1px dashed rgba(255,255,255,0.1); border-radius:12px; background:none; color:rgba(255,255,255,0.3); font-size:13px; cursor:pointer; transition:all 0.2s; width:100%;"
+    >
+      <mat-icon style="font-size:16px; width:16px; height:16px;">add</mat-icon>
+      New table
+    </button>
+
+  </div>
+</div>
