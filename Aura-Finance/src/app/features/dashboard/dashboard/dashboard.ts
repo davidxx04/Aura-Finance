@@ -3,11 +3,12 @@ import { CurrencyPipe, DatePipe } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { MatIconModule } from '@angular/material/icon';
 import { BudgetStore } from '../../../store/budget.store';
+import { SavingsChartComponent } from '../../../shared/components/savings-chart/savings-chart.component';
 
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [CurrencyPipe, DatePipe, RouterLink, MatIconModule],
+  imports: [CurrencyPipe, DatePipe, RouterLink, MatIconModule, SavingsChartComponent],
   templateUrl: './dashboard.html',
 })
 export class Dashboard {

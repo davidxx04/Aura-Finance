@@ -1,0 +1,32 @@
+<div class="rounded-2xl border border-white/5 bg-white/[0.02] p-6">
+
+  <!-- Header -->
+  <div class="flex items-center justify-between mb-6">
+    <h2 class="text-sm font-medium text-white/60 uppercase tracking-wider">Evolution</h2>
+    <div class="flex gap-1">
+      @for (range of ranges; track range) {
+        <button
+          (click)="selectRange(range)"
+          class="px-3 py-1 rounded-lg text-xs font-medium transition-all"
+          [class.bg-white]="selectedRange === range"
+          [class.text-black]="selectedRange === range"
+          [class.text-white]="selectedRange !== range"
+          [class.opacity-40]="selectedRange !== range"
+        >
+          {{ range }}
+        </button>
+      }
+    </div>
+  </div>
+
+  <!-- Chart -->
+  @if (isBrowser) {
+    <div
+      echarts
+      [options]="chartOptions()"
+      class="w-full"
+      style="height: 300px;"
+    ></div>
+  }
+
+</div>

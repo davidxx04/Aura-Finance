@@ -61,6 +61,16 @@ export const BudgetStore = signalStore(
       [...budgets()].sort((a, b) => a.month.localeCompare(b.month))
     ),
 
+    chartData: computed(() => {
+      const sorted = [...budgets()].sort((a, b) => a.month.localeCompare(b.month));
+      return {
+        months: sorted.map(b => b.month),
+        income: sorted.map(b => calcSectionTotal(b, 'income')),
+        realSavings: sorted.map(b => calcSectionTotal(b, 'savings')),
+        expectedSavings: sorted.map(b => b.expectedSavings ?? 0),
+      };
+    }),
+
   })),
 
   withMethods((store, storage = inject(StorageService)) => ({
