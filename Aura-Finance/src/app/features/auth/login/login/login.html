@@ -1,1 +1,76 @@
-<p>login works!</p>
+<div class="page">
+
+  <a routerLink="/" class="back-link">
+    <mat-icon>arrow_back</mat-icon>
+    Back to home
+  </a>
+
+  <div class="card">
+
+    <div class="card__logo">
+      <mat-icon>bolt</mat-icon>
+    </div>
+
+    <h1 class="card__title">Welcome back</h1>
+    <p class="card__subtitle">Sign in to your Aura Finance account</p>
+
+    @if (authStore.error()) {
+      <div class="error-banner">
+        <mat-icon>error_outline</mat-icon>
+        {{ authStore.error() }}
+      </div>
+    }
+
+    <div class="form">
+
+      <div class="field">
+        <label class="field__label">Email</label>
+        <input
+          type="email"
+          class="field__input"
+          placeholder="you@example.com"
+          [value]="email()"
+          (input)="email.set($event.target.value)"
+          (keyup.enter)="submit()"
+        />
+      </div>
+
+      <div class="field">
+        <label class="field__label">Password</label>
+        <div class="field__input-wrapper">
+          <input
+            [type]="showPassword() ? 'text' : 'password'"
+            class="field__input field__input--with-icon"
+            placeholder="••••••••"
+            [value]="password()"
+            (input)="password.set($event.target.value)"
+            (keyup.enter)="submit()"
+          />
+          <button class="field__toggle" (click)="showPassword.set(!showPassword())">
+            <mat-icon>{{ showPassword() ? 'visibility_off' : 'visibility' }}</mat-icon>
+          </button>
+        </div>
+      </div>
+
+      <button
+        class="submit-btn"
+        (click)="submit()"
+        [disabled]="authStore.loading()"
+      >
+        @if (authStore.loading()) {
+          Signing in...
+        } @else {
+          Sign in
+        }
+      </button>
+
+    </div>
+
+    <p class="card__footer">
+      Don't have an account?
+      <a routerLink="/register" class="card__link">Create one</a>
+    </p>
+
+  </div>
+
+</div>

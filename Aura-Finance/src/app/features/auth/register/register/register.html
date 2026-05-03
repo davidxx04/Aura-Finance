@@ -1,1 +1,108 @@
-<p>register works!</p>
+<div class="page">
+
+  <a routerLink="/" class="back-link">
+    <mat-icon>arrow_back</mat-icon>
+    Back to home
+  </a>
+
+  <div class="card">
+
+    <div class="card__logo">
+      <mat-icon>bolt</mat-icon>
+    </div>
+
+    @if (success()) {
+
+      <div class="success">
+        <div class="success__icon">
+          <mat-icon>mark_email_read</mat-icon>
+        </div>
+        <h2 class="success__title">Check your email</h2>
+        <p class="success__text">
+          We sent a confirmation link to <strong>{{ email() }}</strong>.
+          Click it to activate your account.
+        </p>
+        <a routerLink="/login" class="submit-btn">Go to sign in</a>
+      </div>
+
+    } @else {
+
+      <h1 class="card__title">Create account</h1>
+      <p class="card__subtitle">Start tracking your finances for free</p>
+
+      @if (authStore.error()) {
+        <div class="error-banner">
+          <mat-icon>error_outline</mat-icon>
+          {{ authStore.error() }}
+        </div>
+      }
+
+      <div class="form">
+
+        <div class="field">
+          <label class="field__label">Email</label>
+          <input
+            type="email"
+            class="field__input"
+            placeholder="you@example.com"
+            [value]="email()"
+            (input)="email.set($event.target.value)"
+          />
+        </div>
+
+        <div class="field">
+          <label class="field__label">Password</label>
+          <div class="field__input-wrapper">
+            <input
+              [type]="showPassword() ? 'text' : 'password'"
+              class="field__input field__input--with-icon"
+              placeholder="Min. 6 characters"
+              [value]="password()"
+              (input)="password.set($event.target.value)"
+            />
+            <button class="field__toggle" (click)="showPassword.set(!showPassword())">
+              <mat-icon>{{ showPassword() ? 'visibility_off' : 'visibility' }}</mat-icon>
+            </button>
+          </div>
+        </div>
+
+        <div class="field">
+          <label class="field__label">Confirm password</label>
+          <input
+            type="password"
+            class="field__input"
+            [class.field__input--error]="passwordMismatch"
+            placeholder="Repeat your password"
+            [value]="confirmPassword()"
+            (input)="confirmPassword.set($event.target.value)"
+            (keyup.enter)="submit()"
+          />
+          @if (passwordMismatch) {
+            <span class="field__error">Passwords don't match</span>
+          }
+        </div>
+
+        <button
+          class="submit-btn"
+          (click)="submit()"
+          [disabled]="authStore.loading() || passwordMismatch"
+        >
+          @if (authStore.loading()) {
+            Creating account...
+          } @else {
+            Create account
+          }
+        </button>
+
+      </div>
+
+      <p class="card__footer">
+        Already have an account?
+        <a routerLink="/login" class="card__link">Sign in</a>
+      </p>
+
+    }
+
+  </div>
+
+</div>

@@ -3,6 +3,7 @@ import { RouterOutlet, RouterLink, RouterLinkActive } from '@angular/router';
 import { MatIconModule } from '@angular/material/icon';
 import { MatRippleModule } from '@angular/material/core';
 import { BudgetStore } from '../../../store/budget.store';
+import { AuthStore } from '../../../store/auth.store';
 
 interface NavItem {
   label: string;
@@ -18,6 +19,7 @@ interface NavItem {
 })
 export class Layout implements OnInit {
   private budgetStore = inject(BudgetStore);
+  authStore = inject(AuthStore);
 
   navItems: NavItem[] = [
     { label: 'Dashboard', icon: 'dashboard', route: '/app/dashboard' },
@@ -26,8 +28,9 @@ export class Layout implements OnInit {
     { label: 'Settings', icon: 'settings', route: '/app/settings' },
   ];
 
-  ngOnInit(): void {
+  async ngOnInit(): Promise<void> {
     this.budgetStore.loadAll();
     this.budgetStore.ensureCurrentMonth();
+    await this.authStore.init();
   }
 }
