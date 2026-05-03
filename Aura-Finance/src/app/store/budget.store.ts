@@ -45,11 +45,6 @@ export const BudgetStore = signalStore(
       return calcSectionTotal(budget, 'savings');
     }),
 
-    currentExpectedSavings: computed(() => {
-      const budget = budgets().find(b => b.month === selectedMonth());
-      return budget?.expectedSavings ?? 0;
-    }),
-
     currentBalance: computed(() => {
       const budget = budgets().find(b => b.month === selectedMonth());
       const income = calcSectionTotal(budget, 'income');
@@ -67,7 +62,6 @@ export const BudgetStore = signalStore(
         months: sorted.map(b => b.month),
         income: sorted.map(b => calcSectionTotal(b, 'income')),
         realSavings: sorted.map(b => calcSectionTotal(b, 'savings')),
-        expectedSavings: sorted.map(b => b.expectedSavings ?? 0),
       };
     }),
 
@@ -98,7 +92,6 @@ export const BudgetStore = signalStore(
           id: crypto.randomUUID(),
           userId: null,
           month,
-          expectedSavings: 0,
           sections: [
             emptySection('income'),
             emptySection('savings'),
@@ -108,14 +101,6 @@ export const BudgetStore = signalStore(
         storage.saveBudget(newBudget);
         patchState(store, { budgets: storage.getBudgets() });
       }
-    },
-
-    updateExpectedSavings(amount: number): void {
-      const budget = store.currentBudget();
-      if (!budget) return;
-      const updated = { ...budget, expectedSavings: amount };
-      storage.saveBudget(updated);
-      patchState(store, { budgets: storage.getBudgets() });
     },
 
     addTable(sectionType: SectionType, tableName: string): void {

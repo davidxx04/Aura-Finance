@@ -1,4 +1,4 @@
-import { Component, inject, computed, input } from '@angular/core';
+import { Component, inject, computed, input, signal } from '@angular/core';
 import { NgxEchartsDirective } from 'ngx-echarts';
 import { BudgetStore } from '../../../store/budget.store';
 import { EChartsOption } from 'echarts';
@@ -20,14 +20,14 @@ export class SavingsChartComponent {
   isBrowser = isPlatformBrowser(this.platformId);
 
   ranges: TimeRange[] = ['1M', '3M', '6M', '1Y', '3Y', '7Y', 'ALL'];
-  selectedRange: TimeRange = 'ALL';
+  selectedRange = signal<TimeRange>('ALL');
 
   filteredData = computed(() => {
     const data = this.budgetStore.chartData();
     const months = data.months;
     if (!months.length) return data;
 
-    const limit = this.getMonthLimit(this.selectedRange);
+    const limit = this.getMonthLimit(this.selectedRange());
     if (limit === null) return data;
 
     const sliced = months.slice(-limit);
@@ -37,7 +37,6 @@ export class SavingsChartComponent {
       months: sliced,
       income: data.income.slice(idx),
       realSavings: data.realSavings.slice(idx),
-      expectedSavings: data.expectedSavings.slice(idx),
     };
   });
 
@@ -101,16 +100,6 @@ export class SavingsChartComponent {
           },
         },
         {
-          name: 'Expected savings',
-          type: 'line',
-          data: data.expectedSavings,
-          smooth: true,
-          symbol: 'circle',
-          symbolSize: 6,
-          lineStyle: { color: '#60a5fa', width: 2, type: 'dashed' },
-          itemStyle: { color: '#60a5fa' },
-        },
-        {
           name: 'Real savings',
           type: 'line',
           data: data.realSavings,
@@ -141,7 +130,7 @@ export class SavingsChartComponent {
   });
 
   selectRange(range: TimeRange): void {
-    this.selectedRange = range;
+    this.selectedRange.set(range);
   }
 
   private getMonthLimit(range: TimeRange): number | null {
