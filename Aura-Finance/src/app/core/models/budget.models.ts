@@ -25,5 +25,6 @@ export interface MonthlyBudget {
   id: string;
   userId: string | null;
   month: string; // formato YYYY-MM
+  extraSavings: number;
   sections: BudgetSection[];
 }

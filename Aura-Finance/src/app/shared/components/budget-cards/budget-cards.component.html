@@ -22,4 +22,54 @@
     </button>
   }
 
+  <!-- Extra savings card -->
+  @if (editingExtraSavings()) {
+    <div style="border-radius:16px; border:1px solid rgba(255,255,255,0.05); background:rgba(255,255,255,0.03); padding:20px;">
+      <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:16px;">
+        <span style="color:rgba(255,255,255,0.4); font-size:11px; font-weight:500; text-transform:uppercase; letter-spacing:0.08em;">
+          Extra savings (end of month)
+        </span>
+        <div style="width:32px; height:32px; border-radius:8px; background:rgba(234,179,8,0.1); display:flex; align-items:center; justify-content:center;">
+          <mat-icon style="font-size:16px; width:16px; height:16px; color:#eab308;">stars</mat-icon>
+        </div>
+      </div>
+      <div style="display:flex; gap:8px; align-items:center;">
+        <div style="position:relative; flex:1;">
+          <span style="position:absolute; left:10px; top:50%; transform:translateY(-50%); color:rgba(255,255,255,0.4); font-size:16px;">€</span>
+          <input
+            type="number"
+            [value]="extraSavingsValue() === 0 ? '' : extraSavingsValue()"
+            (input)="extraSavingsValue.set(+$event.target.value)"
+            (keyup.enter)="saveExtraSavings()"
+            (blur)="saveExtraSavings()"
+            placeholder="0.00"
+            class="no-spinners"
+            autofocus
+            style="background:rgba(255,255,255,0.06); border:1px solid rgba(234,179,8,0.4); border-radius:8px; padding:6px 10px 6px 24px; color:white; font-size:18px; font-weight:600; outline:none; width:100%; box-sizing:border-box;"
+          />
+        </div>
+      </div>
+    </div>
+  } @else {
+    <button
+      (click)="startEditExtraSavings()"
+      style="border-radius:16px; border:1px solid rgba(255,255,255,0.05); background:rgba(255,255,255,0.03); padding:20px; text-align:left; cursor:pointer; transition:all 0.2s; width:100%; display:block;"
+      onmouseenter="this.style.background='rgba(255,255,255,0.06)'; this.style.borderColor='rgba(255,255,255,0.1)'"
+      onmouseleave="this.style.background='rgba(255,255,255,0.03)'; this.style.borderColor='rgba(255,255,255,0.05)'"
+    >
+      <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:16px;">
+        <span style="color:rgba(255,255,255,0.4); font-size:11px; font-weight:500; text-transform:uppercase; letter-spacing:0.08em;">
+          Extra savings (end of month)
+        </span>
+        <div style="width:32px; height:32px; border-radius:8px; background:rgba(234,179,8,0.1); display:flex; align-items:center; justify-content:center;">
+          <mat-icon style="font-size:16px; width:16px; height:16px; color:#eab308;">stars</mat-icon>
+        </div>
+      </div>
+      <p style="font-size:24px; font-weight:600; margin:0; color:#eab308;">
+        {{ budgetStore.currentExtraSavings() | currency:'EUR':'symbol':'1.2-2' }}
+      </p>
+      <p style="font-size:11px; color:rgba(255,255,255,0.2); margin:6px 0 0;">Click to edit</p>
+    </button>
+  }
+
 </div>

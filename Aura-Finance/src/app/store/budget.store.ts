@@ -45,6 +45,11 @@ export const BudgetStore = signalStore(
       return calcSectionTotal(budget, 'savings');
     }),
 
+    currentExtraSavings: computed(() => {
+      const budget = budgets().find(b => b.month === selectedMonth());
+      return budget?.extraSavings ?? 0;
+    }),
+
     currentBalance: computed(() => {
       const budget = budgets().find(b => b.month === selectedMonth());
       const income = calcSectionTotal(budget, 'income');
@@ -92,6 +97,7 @@ export const BudgetStore = signalStore(
           id: crypto.randomUUID(),
           userId: null,
           month,
+          extraSavings: 0,
           sections: [
             emptySection('income'),
             emptySection('savings'),
@@ -101,6 +107,14 @@ export const BudgetStore = signalStore(
         storage.saveBudget(newBudget);
         patchState(store, { budgets: storage.getBudgets() });
       }
+    },
+
+    updateExtraSavings(amount: number): void {
+      const budget = store.currentBudget();
+      if (!budget) return;
+      const updated = { ...budget, extraSavings: amount };
+      storage.saveBudget(updated);
+      patchState(store, { budgets: storage.getBudgets() });
     },
 
     addTable(sectionType: SectionType, tableName: string): void {

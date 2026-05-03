@@ -19,6 +19,9 @@ export class BudgetCardsComponent {
   budgetStore = inject(BudgetStore);
   dialog = inject(MatDialog);
 
+  editingExtraSavings = signal(false);
+  extraSavingsValue = signal(0);
+
   sections = [
     {
       type: 'income' as SectionType,
@@ -55,5 +58,15 @@ export class BudgetCardsComponent {
       panelClass: 'dark-dialog',
       backdropClass: 'dark-backdrop',
     });
+  }
+
+  startEditExtraSavings(): void {
+    this.extraSavingsValue.set(this.budgetStore.currentExtraSavings());
+    this.editingExtraSavings.set(true);
+  }
+
+  saveExtraSavings(): void {
+    this.budgetStore.updateExtraSavings(this.extraSavingsValue());
+    this.editingExtraSavings.set(false);
   }
 }
