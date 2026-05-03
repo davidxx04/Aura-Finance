@@ -1,1 +1,86 @@
-<p>landing works!</p>
+<div class="landing">
+
+  <!-- Nav -->
+  <nav class="nav">
+    <div class="nav__logo">
+      <div class="nav__logo-icon">
+        <mat-icon>bolt</mat-icon>
+      </div>
+      <span>Aura Finance</span>
+    </div>
+    <div class="nav__actions">
+      <a routerLink="/login" class="nav__link">Sign in</a>
+      <a routerLink="/app/dashboard" class="nav__cta">Try for free</a>
+    </div>
+  </nav>
+
+  <!-- Hero -->
+  <section class="hero">
+    <div class="hero__badge">
+      <mat-icon>auto_awesome</mat-icon>
+      Personal finance, simplified
+    </div>
+    <h1 class="hero__title">
+      Know exactly where<br />
+      your money goes
+    </h1>
+    <p class="hero__subtitle">
+      Aura Finance helps you build a clear picture of your monthly finances —
+      income, expenses, savings — without spreadsheets or complexity.
+    </p>
+    <div class="hero__actions">
+      <a routerLink="/app/dashboard" class="btn btn--primary">
+        <mat-icon>rocket_launch</mat-icon>
+        Start for free
+      </a>
+      <a routerLink="/login" class="btn btn--ghost">
+        Sign in
+        <mat-icon>arrow_forward</mat-icon>
+      </a>
+    </div>
+    <p class="hero__note">No account required · Data stays in your browser</p>
+  </section>
+
+  <!-- Features -->
+  <section class="features">
+    <div class="features__header">
+      <h2 class="features__title">Everything you need, nothing you don't</h2>
+      <p class="features__subtitle">Built for people who want clarity without complexity.</p>
+    </div>
+    <div class="features__grid">
+      @for (feature of features; track feature.title) {
+        <div class="feature-card">
+          <div class="feature-card__icon">
+            <mat-icon>{{ feature.icon }}</mat-icon>
+          </div>
+          <h3 class="feature-card__title">{{ feature.title }}</h3>
+          <p class="feature-card__desc">{{ feature.description }}</p>
+        </div>
+      }
+    </div>
+  </section>
+
+  <!-- CTA final -->
+  <section class="cta">
+    <div class="cta__inner">
+      <h2 class="cta__title">Ready to take control?</h2>
+      <p class="cta__subtitle">Start tracking your finances today. Free, private, no strings attached.</p>
+      <a routerLink="/app/dashboard" class="btn btn--primary btn--lg">
+        <mat-icon>bolt</mat-icon>
+        Get started now
+      </a>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="footer__logo">
+      <div class="footer__logo-icon">
+        <mat-icon>bolt</mat-icon>
+      </div>
+      <span>Aura Finance</span>
+    </div>
+    <p class="footer__copy">Built with Angular 21 · Open source · No ads · No tracking</p>
+  </footer>
+
+</div>

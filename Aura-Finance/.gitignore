@@ -1,5 +1,9 @@
 # See https://docs.github.com/get-started/getting-started-with-git/ignoring-files for more about ignoring files.
 
+# Custom scripts/exports
+src_export.txt
+export_src.sh
+
 # Compiled output
 /dist
 /tmp
