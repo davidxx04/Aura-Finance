@@ -1,4 +1,4 @@
-import { Component, inject, input, signal } from '@angular/core';
+import { Component, inject, input, signal, ViewChild, ElementRef } from '@angular/core';
 import { CurrencyPipe } from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
@@ -21,6 +21,8 @@ export class BudgetCardsComponent {
 
   editingExtraSavings = signal(false);
   extraSavingsValue = signal(0);
+
+  @ViewChild('extraInput') extraInput?: ElementRef<HTMLInputElement>;
 
   sections = [
     {
@@ -63,6 +65,12 @@ export class BudgetCardsComponent {
   startEditExtraSavings(): void {
     this.extraSavingsValue.set(this.budgetStore.currentExtraSavings());
     this.editingExtraSavings.set(true);
+    setTimeout(() => {
+      if (this.extraInput) {
+        this.extraInput.nativeElement.focus();
+        this.extraInput.nativeElement.select();
+      }
+    });
   }
 
   saveExtraSavings(): void {

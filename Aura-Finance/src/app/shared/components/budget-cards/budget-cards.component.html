@@ -37,6 +37,7 @@
         <div style="position:relative; flex:1;">
           <span style="position:absolute; left:10px; top:50%; transform:translateY(-50%); color:rgba(255,255,255,0.4); font-size:16px;">€</span>
           <input
+            #extraInput
             type="number"
             [value]="extraSavingsValue() === 0 ? '' : extraSavingsValue()"
             (input)="extraSavingsValue.set(+$event.target.value)"
@@ -44,7 +45,6 @@
             (blur)="saveExtraSavings()"
             placeholder="0.00"
             class="no-spinners"
-            autofocus
             style="background:rgba(255,255,255,0.06); border:1px solid rgba(234,179,8,0.4); border-radius:8px; padding:6px 10px 6px 24px; color:white; font-size:18px; font-weight:600; outline:none; width:100%; box-sizing:border-box;"
           />
         </div>
