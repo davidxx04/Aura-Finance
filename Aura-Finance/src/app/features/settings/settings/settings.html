@@ -1,1 +1,166 @@
-<p>settings works!</p>
+<div class="page">
+
+  <div class="header">
+    <h1 class="header__title">Settings</h1>
+    <p class="header__subtitle">Manage your account and data</p>
+  </div>
+
+  <!-- Account section -->
+  <section class="section">
+    <h2 class="section__title">Account</h2>
+
+    @if (authStore.isLoggedIn()) {
+      <div class="card">
+        <div class="card__row">
+          <div class="card__row-icon card__row-icon--violet">
+            <mat-icon>person</mat-icon>
+          </div>
+          <div class="card__row-content">
+            <p class="card__row-label">Email</p>
+            <p class="card__row-value">{{ authStore.userEmail() }}</p>
+          </div>
+        </div>
+
+        <div class="card__divider"></div>
+
+        <div class="card__row">
+          <div class="card__row-icon card__row-icon--red">
+            <mat-icon>logout</mat-icon>
+          </div>
+          <div class="card__row-content">
+            <p class="card__row-label">Sign out</p>
+            <p class="card__row-desc">Sign out from your account on this device</p>
+          </div>
+          <button class="btn btn--ghost btn--sm" (click)="authStore.signOut()">
+            Sign out
+          </button>
+        </div>
+      </div>
+    } @else {
+      <div class="card">
+        <div class="guest-banner">
+          <div class="guest-banner__icon">
+            <mat-icon>person_off</mat-icon>
+          </div>
+          <div class="guest-banner__content">
+            <p class="guest-banner__title">You're using guest mode</p>
+            <p class="guest-banner__desc">
+              Your data is saved locally in this browser. Create an account to keep your data safe and access it from any device.
+            </p>
+          </div>
+        </div>
+        <div class="card__actions">
+          <a routerLink="/register" class="btn btn--primary">
+            <mat-icon>person_add</mat-icon>
+            Create account
+          </a>
+          <a routerLink="/login" class="btn btn--ghost">
+            Sign in
+          </a>
+        </div>
+      </div>
+    }
+  </section>
+
+  <!-- Data section -->
+  <section class="section">
+    <h2 class="section__title">Your data</h2>
+
+    <div class="card">
+
+      <!-- Export -->
+      <div class="card__row">
+        <div class="card__row-icon card__row-icon--emerald">
+          <mat-icon>download</mat-icon>
+        </div>
+        <div class="card__row-content">
+          <p class="card__row-label">Export data</p>
+          <p class="card__row-desc">Download all your budget data as a JSON file</p>
+        </div>
+        <button class="btn btn--ghost btn--sm" (click)="exportData()">
+          @if (exportSuccess()) {
+            <mat-icon>check</mat-icon>
+            Done
+          } @else {
+            Export
+          }
+        </button>
+      </div>
+
+      <div class="card__divider"></div>
+
+      <!-- Import -->
+      <div class="card__row">
+        <div class="card__row-icon card__row-icon--blue">
+          <mat-icon>upload</mat-icon>
+        </div>
+        <div class="card__row-content">
+          <p class="card__row-label">Import data</p>
+          <p class="card__row-desc">Restore data from a previously exported JSON file</p>
+        </div>
+        <label class="btn btn--ghost btn--sm" style="cursor:pointer;">
+          @if (importSuccess()) {
+            <mat-icon>check</mat-icon>
+            Done
+          } @else {
+            Import
+          }
+          <input type="file" accept=".json" style="display:none;" (change)="importData($event)" />
+        </label>
+      </div>
+
+      <div class="card__divider"></div>
+
+      <!-- Clear data -->
+      <div class="card__row">
+        <div class="card__row-icon card__row-icon--red">
+          <mat-icon>delete_forever</mat-icon>
+        </div>
+        <div class="card__row-content">
+          <p class="card__row-label">Clear all data</p>
+          <p class="card__row-desc">Permanently delete all your local budget data</p>
+        </div>
+        <button class="btn btn--danger btn--sm" (click)="showDeleteConfirm.set(true)">
+          Clear
+        </button>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- About section -->
+  <section class="section">
+    <h2 class="section__title">About</h2>
+    <div class="card">
+      <div class="card__row">
+        <div class="card__row-icon card__row-icon--violet">
+          <mat-icon>bolt</mat-icon>
+        </div>
+        <div class="card__row-content">
+          <p class="card__row-label">Aura Finance</p>
+          <p class="card__row-desc">Built with Angular 21 · Open source · No ads · No tracking</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</div>
+
+<!-- Delete confirm modal -->
+@if (showDeleteConfirm()) {
+  <div class="modal-backdrop" (click)="showDeleteConfirm.set(false)">
+    <div class="modal" (click)="$event.stopPropagation()">
+      <div class="modal__icon">
+        <mat-icon>warning</mat-icon>
+      </div>
+      <h3 class="modal__title">Clear all data?</h3>
+      <p class="modal__desc">
+        This will permanently delete all your budget data from this device. This action cannot be undone.
+      </p>
+      <div class="modal__actions">
+        <button class="btn btn--ghost" (click)="showDeleteConfirm.set(false)">Cancel</button>
+        <button class="btn btn--danger" (click)="clearAllData()">Yes, clear everything</button>
+      </div>
+    </div>
+  </div>
+}
