@@ -12,6 +12,7 @@ import { SectionType } from '../../../core/models';
   standalone: true,
   imports: [CurrencyPipe, MatIconModule, MatDialogModule, FormsModule],
   templateUrl: './budget-cards.component.html',
+  styleUrl: './budget-cards.component.css'
 })
 export class BudgetCardsComponent {
   month = input.required<string>();

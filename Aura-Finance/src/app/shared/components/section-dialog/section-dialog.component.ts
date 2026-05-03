@@ -16,6 +16,7 @@ export interface SectionDialogData {
   standalone: true,
   imports: [MatDialogModule, MatIconModule, FormsModule, CurrencyPipe],
   templateUrl: './section-dialog.component.html',
+  styleUrl: './section-dialog.component.css'
 })
 export class SectionDialogComponent {
   dialogRef = inject(MatDialogRef<SectionDialogComponent>);

@@ -19,7 +19,7 @@ interface NavItem {
 })
 export class Layout implements OnInit {
   private budgetStore = inject(BudgetStore);
-  readonly authStore = inject(AuthStore);
+  authStore = inject(AuthStore);
 
   navItems: NavItem[] = [
     { label: 'Dashboard', icon: 'dashboard', route: '/app/dashboard' },

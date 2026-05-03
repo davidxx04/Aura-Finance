@@ -18,6 +18,7 @@ interface MonthCell {
   standalone: true,
   imports: [MatIconModule, CurrencyPipe, BudgetCardsComponent],
   templateUrl: './budget.html',
+  styleUrl: './budget.css'
 })
 export class Budget {
   budgetStore = inject(BudgetStore);

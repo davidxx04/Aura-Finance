@@ -1,48 +1,43 @@
-<div style="padding:32px; max-width:1024px; margin:0 auto;">
+<div class="budget-container">
 
   @if (selectedMonth() === null) {
 
     <!-- Vista anual -->
-    <div style="margin-bottom:32px;">
-      <h1 style="font-size:28px; font-weight:600; margin:0 0 4px; color:white;">Budget</h1>
-      <p style="color:rgba(255,255,255,0.4); font-size:14px; margin:0;">Select a month to edit</p>
+    <div class="budget-header-view">
+      <h1 class="budget-title">Budget</h1>
+      <p class="budget-subtitle">Select a month to edit</p>
     </div>
 
     <!-- Year navigator -->
-    <div style="display:flex; align-items:center; gap:16px; margin-bottom:32px;">
-      <button (click)="prevYear()" style="background:rgba(255,255,255,0.05); border:none; border-radius:10px; width:36px; height:36px; display:flex; align-items:center; justify-content:center; cursor:pointer; color:white;">
-        <mat-icon style="font-size:18px; width:18px; height:18px;">chevron_left</mat-icon>
+    <div class="year-nav-container">
+      <button (click)="prevYear()" class="year-nav-btn">
+        <mat-icon class="btn-icon">chevron_left</mat-icon>
       </button>
-      <span style="font-size:20px; font-weight:600; color:white; min-width:80px; text-align:center;">{{ selectedYear() }}</span>
-      <button (click)="nextYear()" [style.opacity]="selectedYear() >= today.getFullYear() ? '0.2' : '1'" style="background:rgba(255,255,255,0.05); border:none; border-radius:10px; width:36px; height:36px; display:flex; align-items:center; justify-content:center; cursor:pointer; color:white;">
-        <mat-icon style="font-size:18px; width:18px; height:18px;">chevron_right</mat-icon>
+      <span class="year-label">{{ selectedYear() }}</span>
+      <button (click)="nextYear()" [disabled]="selectedYear() >= today.getFullYear()" class="year-nav-btn">
+        <mat-icon class="btn-icon">chevron_right</mat-icon>
       </button>
     </div>
 
     <!-- Grid de meses -->
-    <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(220px, 1fr)); gap:12px;">
+    <div class="months-grid">
       @for (cell of months(); track cell.month) {
         <button
           (click)="selectMonth(cell)"
-          [style.opacity]="cell.isFuture ? '0.3' : '1'"
-          [style.cursor]="cell.isFuture ? 'not-allowed' : 'pointer'"
-          [style.border]="cell.isCurrent ? '1px solid rgba(124,58,237,0.5)' : '1px solid rgba(255,255,255,0.05)'"
-          [style.background]="cell.isCurrent ? 'rgba(124,58,237,0.08)' : 'rgba(255,255,255,0.02)'"
-          style="border-radius:16px; padding:20px; text-align:left; transition:all 0.2s; width:100%;"
-          onmouseenter="if(this.style.opacity !== '0.3') { this.style.background='rgba(255,255,255,0.06)'; }"
-          onmouseleave="this.style.background= this.getAttribute('data-current') === 'true' ? 'rgba(124,58,237,0.08)' : 'rgba(255,255,255,0.02)';"
-          [attr.data-current]="cell.isCurrent"
+          class="month-card"
+          [class.is-future]="cell.isFuture"
+          [class.is-current]="cell.isCurrent"
         >
-          <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:12px;">
-            <span style="color:white; font-size:15px; font-weight:500;">{{ cell.label }}</span>
+          <div class="month-card-header">
+            <span class="month-label">{{ cell.label }}</span>
             @if (cell.isCurrent) {
-              <span style="background:rgba(124,58,237,0.3); color:#a78bfa; font-size:10px; font-weight:600; padding:3px 8px; border-radius:6px; text-transform:uppercase; letter-spacing:0.06em;">Current</span>
+              <span class="badge-current">Current</span>
             }
             @if (cell.hasData && !cell.isCurrent) {
-              <span style="background:rgba(52,211,153,0.1); color:#34d399; font-size:10px; font-weight:600; padding:3px 8px; border-radius:6px; text-transform:uppercase; letter-spacing:0.06em;">Done</span>
+              <span class="badge-done">Done</span>
             }
           </div>
-          <p style="color:rgba(255,255,255,0.3); font-size:13px; margin:0;">
+          <p class="month-data">
             @if (cell.hasData) {
               {{ getMonthTotal(cell.month) | currency:'EUR':'symbol':'1.0-0' }} income
             } @else if (!cell.isFuture) {
@@ -58,12 +53,12 @@
   } @else {
 
     <!-- Vista de mes -->
-    <div style="margin-bottom:32px;">
-      <button (click)="goBack()" style="display:flex; align-items:center; gap:6px; background:none; border:none; cursor:pointer; color:rgba(255,255,255,0.4); font-size:14px; padding:0; margin-bottom:16px;">
-        <mat-icon style="font-size:16px; width:16px; height:16px;">arrow_back</mat-icon>
+    <div class="month-view-header">
+      <button (click)="goBack()" class="btn-back">
+        <mat-icon class="btn-icon-small">arrow_back</mat-icon>
         Back to {{ selectedYear() }}
       </button>
-      <h1 style="font-size:28px; font-weight:600; margin:0; color:white;">
+      <h1 class="month-title">
         {{ monthNames[(+selectedMonth()!.split('-')[1]) - 1] }} {{ selectedMonth()!.split('-')[0] }}
       </h1>
     </div>

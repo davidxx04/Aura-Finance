@@ -1,0 +1,162 @@
+.budget-container {
+  padding: 32px;
+  max-width: 1024px;
+  margin: 0 auto;
+}
+
+.budget-header-view {
+  margin-bottom: 32px;
+}
+
+.budget-title {
+  font-size: 28px;
+  font-weight: 600;
+  margin: 0 0 4px;
+  color: white;
+}
+
+.budget-subtitle {
+  color: rgba(255, 255, 255, 0.4);
+  font-size: 14px;
+  margin: 0;
+}
+
+.year-nav-container {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 32px;
+}
+
+.year-nav-btn {
+  background: rgba(255, 255, 255, 0.05);
+  border: none;
+  border-radius: 10px;
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: white;
+}
+
+.year-nav-btn[disabled] {
+  opacity: 0.2;
+}
+
+.btn-icon {
+  font-size: 18px;
+  width: 18px;
+  height: 18px;
+}
+
+.year-label {
+  font-size: 20px;
+  font-weight: 600;
+  color: white;
+  min-width: 80px;
+  text-align: center;
+}
+
+.months-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 12px;
+}
+
+.month-card {
+  border-radius: 16px;
+  padding: 20px;
+  text-align: left;
+  transition: all 0.2s;
+  width: 100%;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  background: rgba(255, 255, 255, 0.02);
+  cursor: pointer;
+}
+
+.month-card.is-future {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+
+.month-card:not(.is-future):not(.is-current):hover {
+  background: rgba(255, 255, 255, 0.06);
+}
+
+.month-card.is-current {
+  border: 1px solid rgba(124, 58, 237, 0.5);
+  background: rgba(124, 58, 237, 0.08);
+}
+
+.month-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+
+.month-label {
+  color: white;
+  font-size: 15px;
+  font-weight: 500;
+}
+
+.badge-current {
+  background: rgba(124, 58, 237, 0.3);
+  color: #a78bfa;
+  font-size: 10px;
+  font-weight: 600;
+  padding: 3px 8px;
+  border-radius: 6px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.badge-done {
+  background: rgba(52, 211, 153, 0.1);
+  color: #34d399;
+  font-size: 10px;
+  font-weight: 600;
+  padding: 3px 8px;
+  border-radius: 6px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.month-data {
+  color: rgba(255, 255, 255, 0.3);
+  font-size: 13px;
+  margin: 0;
+}
+
+.month-view-header {
+  margin-bottom: 32px;
+}
+
+.btn-back {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: rgba(255, 255, 255, 0.4);
+  font-size: 14px;
+  padding: 0;
+  margin-bottom: 16px;
+}
+
+.btn-icon-small {
+  font-size: 16px;
+  width: 16px;
+  height: 16px;
+}
+
+.month-title {
+  font-size: 28px;
+  font-weight: 600;
+  margin: 0;
+  color: white;
+}
