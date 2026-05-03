@@ -14,11 +14,17 @@ export class SupabaseService {
     }
   }
 
+  async getSession(): Promise<Session | null> {
+    if (!this.supabase) return null;
+    const { data, error } = await this.supabase.auth.getSession();
+    if (error) return null;
+    return data.session;
+  }
+
   async getUser(): Promise<User | null> {
     if (!this.supabase) return null;
-    const { data, error } = await this.supabase.auth.getUser();
-    if (error) return null;
-    return data.user;
+    const session = await this.getSession();
+    return session?.user ?? null;
   }
 
   async signUp(email: string, password: string) {
