@@ -126,6 +126,41 @@ export const BudgetStore = signalStore(
       patchState(store, { budgets: storage.getBudgets() });
     },
 
+    copyPreviousTables(sectionType: SectionType): void {
+      const current = store.currentBudget();
+      if (!current) return;
+      
+      const all = store.budgets().filter(b => b.month < current.month).sort((a, b) => b.month.localeCompare(a.month));
+      if (all.length === 0) return;
+      
+      let prevSection;
+      for (const b of all) {
+        const s = b.sections.find(sec => sec.type === sectionType);
+        if (s && s.tables.length > 0) {
+          prevSection = s;
+          break;
+        }
+      }
+
+      if (!prevSection) return;
+
+      let updated = { ...current };
+      updated.sections = updated.sections.map(s => {
+        if (s.type === sectionType) {
+          const copiedTables = prevSection.tables.map(t => ({
+            ...t,
+            id: crypto.randomUUID(),
+            rows: t.rows.map(r => ({ ...r, id: crypto.randomUUID() }))
+          }));
+          return { ...s, tables: [...s.tables, ...copiedTables] };
+        }
+        return s;
+      });
+
+      storage.saveBudget(updated);
+      patchState(store, { budgets: storage.getBudgets() });
+    },
+
     addRow(sectionType: SectionType, tableId: string): void {
       const budget = store.currentBudget();
       if (!budget) return;

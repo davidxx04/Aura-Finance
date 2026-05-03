@@ -13,6 +13,16 @@ body {
   color: white;
 }
 
+/* Remove arrows/spinners from number inputs */
+input[type="number"].no-spinners::-webkit-outer-spin-button,
+input[type="number"].no-spinners::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+input[type="number"].no-spinners {
+  -moz-appearance: textfield;
+}
+
 .dark-dialog .mat-mdc-dialog-container {
   --mdc-dialog-container-color: #0f0f1a;
   border-radius: 16px !important;

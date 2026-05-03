@@ -74,9 +74,31 @@ export class SectionDialogComponent {
     if (!row) return;
     const updated = {
       ...row,
-      [field]: field === 'amount' ? parseFloat(value) || 0 : value,
+      [field]: field === 'amount' ? (value ? parseFloat(value) : 0) : value,
     };
     this.budgetStore.updateRow(this.data.sectionType, tableId, updated);
+  }
+
+  get placeholder(): string {
+    const map: Record<SectionType, string> = {
+      income: 'Table name (e.g. Salary, Biz...)',
+      expenses: 'Table name (e.g. Food, Rent...)',
+      savings: 'Table name (e.g. Holidays, Car...)',
+    };
+    return map[this.data.sectionType] || 'Table name...';
+  }
+
+  get sectionColor(): string {
+    const map: Record<SectionType, string> = {
+      income: '#34d399', // emerald
+      expenses: '#f87171', // red
+      savings: '#a78bfa', // purple
+    };
+    return map[this.data.sectionType] || '#a78bfa';
+  }
+
+  copyPreviousTables(): void {
+    this.budgetStore.copyPreviousTables(this.data.sectionType);
   }
 
   deleteRow(tableId: string, rowId: string): void {

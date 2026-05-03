@@ -1,55 +1,27 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { CurrencyPipe, DatePipe } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { MatIconModule } from '@angular/material/icon';
 import { BudgetStore } from '../../../store/budget.store';
 import { SavingsChartComponent } from '../../../shared/components/savings-chart/savings-chart.component';
+import { BudgetCardsComponent } from '../../../shared/components/budget-cards/budget-cards.component';
 
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [CurrencyPipe, DatePipe, RouterLink, MatIconModule, SavingsChartComponent],
+  imports: [CurrencyPipe, DatePipe, RouterLink, MatIconModule, SavingsChartComponent, BudgetCardsComponent],
   templateUrl: './dashboard.html',
 })
-export class Dashboard {
+export class Dashboard implements OnInit {
   budgetStore = inject(BudgetStore);
 
   today = new Date();
+  currentMonthStr = `${this.today.getFullYear()}-${String(this.today.getMonth() + 1).padStart(2, '0')}`;
 
-  cards = [
-    {
-      label: 'Income',
-      value: this.budgetStore.currentIncome,
-      icon: 'trending_up',
-      bg: 'bg-emerald-500/10',
-      iconColor: 'text-emerald-400',
-      valueColor: 'text-emerald-400',
-    },
-    {
-      label: 'Expenses',
-      value: this.budgetStore.currentExpenses,
-      icon: 'trending_down',
-      bg: 'bg-red-500/10',
-      iconColor: 'text-red-400',
-      valueColor: 'text-red-400',
-    },
-    {
-      label: 'Savings',
-      value: this.budgetStore.currentSavings,
-      icon: 'savings',
-      bg: 'bg-violet-500/10',
-      iconColor: 'text-violet-400',
-      valueColor: 'text-violet-400',
-    },
-    {
-      label: 'Expected savings',
-      value: this.budgetStore.currentExpectedSavings,
-      icon: 'flag',
-      bg: 'bg-blue-500/10',
-      iconColor: 'text-blue-400',
-      valueColor: 'text-blue-400',
-    },
-  ];
+  ngOnInit() {
+    this.budgetStore.selectMonth(this.currentMonthStr);
+    this.budgetStore.ensureCurrentMonth();
+  }
 
   balance = this.budgetStore.currentBalance;
 }

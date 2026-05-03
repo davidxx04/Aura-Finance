@@ -38,7 +38,11 @@ export class Budget {
       const isPast = year < currentYear || (year === currentYear && i < currentMonth);
       const isCurrent = year === currentYear && i === currentMonth;
       const isFuture = year > currentYear || (year === currentYear && i > currentMonth);
-      const hasData = this.budgetStore.budgets().some(b => b.month === month);
+      
+      const budget = this.budgetStore.budgets().find(b => b.month === month);
+      const hasData = budget ? budget.sections.every(s => 
+        s.tables.some(t => t.rows.some(r => r.amount && r.amount !== 0 || r.label))
+      ) : false;
 
       return { month, label, isPast, isCurrent, isFuture, hasData };
     });

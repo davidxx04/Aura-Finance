@@ -3,7 +3,7 @@
   <!-- Header -->
   <div class="mb-8">
     <p class="text-white/40 text-sm mb-1">{{ today | date:'EEEE, MMMM d' }}</p>
-    <h1 class="text-3xl font-semibold text-white">Dashboard</h1>
+    <h1 class="text-3xl font-semibold text-white">Current month dashboard</h1>
   </div>
 
   <!-- Balance principal -->
@@ -19,22 +19,8 @@
   </div>
 
   <!-- Tarjetas de resumen -->
-  <div class="grid grid-cols-2 gap-4 mb-6 lg:grid-cols-4">
-    @for (card of cards; track card.label) {
-      <div class="rounded-2xl border border-white/5 bg-white/3 p-5">
-        <div class="flex items-center justify-between mb-4">
-          <span class="text-white/40 text-xs font-medium uppercase tracking-wider">
-            {{ card.label }}
-          </span>
-          <div class="w-8 h-8 rounded-lg flex items-center justify-center" [class]="card.bg">
-            <mat-icon class="!text-base" [class]="card.iconColor">{{ card.icon }}</mat-icon>
-          </div>
-        </div>
-        <p class="text-2xl font-semibold" [class]="card.valueColor">
-          {{ card.value() | currency:'EUR':'symbol':'1.2-2' }}
-        </p>
-      </div>
-    }
+  <div class="mb-6">
+    <app-budget-cards [month]="currentMonthStr" />
   </div>
 
   <!-- Gráfica -->
