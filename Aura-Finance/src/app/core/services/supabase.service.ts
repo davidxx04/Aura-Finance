@@ -6,16 +6,12 @@ import { environment } from '../../../environments/environment';
 @Injectable({ providedIn: 'root' })
 export class SupabaseService {
   private platformId = inject(PLATFORM_ID);
-  private supabase!: SupabaseClient;
+  private supabase: SupabaseClient | null = null;
 
   constructor() {
     if (isPlatformBrowser(this.platformId)) {
       this.supabase = createClient(environment.supabaseUrl, environment.supabaseKey);
     }
-  }
-
-  get client(): SupabaseClient {
-    return this.supabase;
   }
 
   async getUser(): Promise<User | null> {
@@ -26,18 +22,22 @@ export class SupabaseService {
   }
 
   async signUp(email: string, password: string) {
+    if (!this.supabase) return { data: null, error: new Error('Not in browser') };
     return this.supabase.auth.signUp({ email, password });
   }
 
   async signIn(email: string, password: string) {
+    if (!this.supabase) return { data: null, error: new Error('Not in browser') };
     return this.supabase.auth.signInWithPassword({ email, password });
   }
 
-  async signOut() {
-    return this.supabase.auth.signOut();
+  async signOut(): Promise<void> {
+    if (!this.supabase) return;
+    await this.supabase.auth.signOut();
   }
 
   onAuthStateChange(callback: (event: AuthChangeEvent, session: Session | null) => void) {
+    if (!this.supabase) return { data: { subscription: { unsubscribe: () => {} } } };
     return this.supabase.auth.onAuthStateChange(callback);
   }
 }
